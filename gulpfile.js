@@ -4,6 +4,7 @@ var concat = require("gulp-concat");
 var clean = require("gulp-clean-css");
 var uglify = require("gulp-uglify");
 var server = require("gulp-webserver");
+var babel = require("gulp-babel");
 
 //编译sass
 gulp.task("sass",function(){
@@ -29,25 +30,44 @@ gulp.task("concatCss",function(){
 })
 
 //压缩js
-// gulp.task("concatjs",function(){
-//     return gulp.src("./src/js/*.js")
-//            .pipe(concat("all.js"))
-//            .pipe(gulp.dest("./src/js"))
-// })
-
-//监听
-gulp.task("watch",function(){
-    gulp.watch("./src/scss/*.scss",gulp.series("sass","concatCss"))
-    // gulp.watch("./src/libs/*.js",gulp.series("ug","caoncatjs"))
+gulp.task("concatjs",function(){
+    return gulp.src("./src/js/*.js")
+           .pipe(concat("all.js"))
+           .pipe(babel({
+                presets: ['es2015']
+           }))
+           .pipe(uglify())
+           .pipe(gulp.dest("./src/js"))
 })
+
 
 //起服务
 gulp.task("server",function(){
-    return guko.src("./src")
+    return gulp.src("./src")
            .pipe(server({
                open:true,
                livereload:true
            }))
 })
 
-gulp.task("./src/scss/*.scss",gulp.series("server","watch"))
+
+//copy
+gulp.task("copycss",function(){
+    return gulp.src("./src/css/*.css")
+           .pipe(gulp.dest("./dist/css"))
+})
+
+gulp.task("copyjs",function(){
+    return gulp.src("./src/libs/flexible.js")
+           .pipe(gulp.dest("./dist/js"))
+})
+
+gulp.task("copyhtml",function(){
+    return gulp.src("./src/index.html")
+           .pipe(gulp.dest("./dist/"))
+})
+
+//监听
+gulp.task("watch",function(){
+    gulp.watch("./src/scss/*.scss",gulp.series("sass","concatCss","ug","server","copycss","copyjs","copyhtml"))
+})
