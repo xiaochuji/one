@@ -2,19 +2,49 @@
 .box{
     width: 100%;
     height: 100%;
+    background: #baad9a;
     display: flex;
     flex-direction: column;
     header{
         width: 100%;
         height: pxTorem(44px);
-
+        border-bottom:pxTorem(1px) solid #ccc;
+        ul{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: pxTorem(0px) pxTorem(10px);
+            box-sizing:border-box;
+            li{
+                font-size: pxTorem(10px);
+            }
+        }
     }
     section{
         width: 100%;
-        flex: 1
+        flex: 1;
+        img{
+            width: 100%;
+            height: 100%;
+        }
     }
     footer{
         width: 100%;
         height: pxTorem(40px);
+        background: #706c66;
+        ol{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: pxTorem(0px) pxTorem(10px);
+            box-sizing: border-box;
+            li{
+                font-size: pxTorem(10px);
+            }
+        }
     }
 }
